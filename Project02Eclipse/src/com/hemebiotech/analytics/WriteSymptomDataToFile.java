@@ -3,8 +3,6 @@ package com.hemebiotech.analytics;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,12 +11,6 @@ import java.util.Map;
  */
 
 public class WriteSymptomDataToFile implements ISymptomWriter {
-
-	private ISymptomReader symptomReader;
-
-	public WriteSymptomDataToFile(ISymptomReader symptomReader) {
-		this.symptomReader = symptomReader;
-	}
 
 	@Override
 	public void writeSymptoms(Map<String, Integer> symptoMap) {
