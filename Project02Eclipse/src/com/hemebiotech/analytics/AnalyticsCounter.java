@@ -1,43 +1,52 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	
-	private static int rashCount = 0;		
-	private static int pupilCount = 0;		
-	
-	public static void main(String args[]) throws Exception {
-		
-		BufferedReader reader = new BufferedReader (new FileReader("C:\\Users\\Ilyace\\Documents\\OC\\Boutouil-Ilyace-debug-Java\\Project02Eclipse\\symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	
-		int headCount = 0;	
-		while (line != null) {
-			i++;	
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+	private ISymptomReader reader;
+	private ISymptomWriter writer;
 
-			line = reader.readLine();	// get another symptom
+	public AnalyticsCounter(ISymptomReader reader, ISymptomWriter writer) {
+		this.reader = reader;
+		this.writer = writer;
+	}
+
+	public List<String> getSymptoms() {
+		return reader.getSymptoms();
+	}
+
+	public Map<String, Integer> countSymptoms(List<String> symptoms) {
+		Map<String, Integer> symptomCount = new HashMap<>();
+
+		for (String symptom : symptoms) {
+			symptomCount.put(symptom, symptomCount.getOrDefault(symptom, 0) + 1);
 		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+
+		return symptomCount;
+	}
+
+	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+		Map<String, Integer> symptomSort = new TreeMap<>(symptoms);
+
+		return symptomSort;
+
+	}
+
+	public void writeSymptoms(Map<String, Integer> symptoms) {
+		writer.writeSymptoms(symptoms);
 	}
 }
+
+//public static void main(String args[]) throws Exception {
+//
+//	ISymptomReader reader = new ReadSymptomDataFromFile("Project02Eclipse\\symptoms.txt");
+//
+//	WriteSymptomDataToFile writer = new WriteSymptomDataToFile(reader);
+//
+//	Map<String, Integer> countedSymptoms = writer.countSymptoms();
+//
+//	writer.writeSymptoms(countedSymptoms);

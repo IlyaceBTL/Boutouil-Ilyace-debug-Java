@@ -1,49 +1,51 @@
 package com.hemebiotech.analytics;
 
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Besoin d'un trie alphabetique pour countSymptoms
+ *
+ */
+
 public class WriteSymptomDataToFile implements ISymptomWriter {
-	
+
 	private ISymptomReader symptomReader;
-	
-    public WriteSymptomDataToFile(ISymptomReader symptomReader) {
-        this.symptomReader = symptomReader;
-    }
-    
+
+	public WriteSymptomDataToFile(ISymptomReader symptomReader) {
+		this.symptomReader = symptomReader;
+	}
 
 	@Override
-	public void writeSymptoms(Map<String, Integer> symptom) {
-		if(symptom == null || symptom.isEmpty()) {
+	public void writeSymptoms(Map<String, Integer> symptoMap) {
+		if (symptoMap == null || symptoMap.isEmpty()) {
 			System.out.println("Aucun Symptome");
 			return;
 		}
-		
-		Map<String, Integer> countedSymptoms = countSymptoms();
-		
-		try {
-			StringBuilder result = new StringBuilder();
-			for(String key : countedSymptoms.keySet()) {
-				result.append(countedSymptoms.get(key) +",");
+
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("result.out"))) {
+			for (String symptomKey : symptoMap.keySet()) {
+				writer.write(symptomKey + " = " + symptoMap.get(symptomKey));
+				writer.newLine();
 			}
-			System.out.println("Ecriture des symptomes :\n" + result);
-		} catch(Exception e){
+			System.out.println("result.out est ecrit");
+		} catch (IOException e) {
 			e.printStackTrace();
-			
-		}
-		
-	}
-	
-	public Map<String, Integer> countSymptoms(){
-		Map<String, Integer> symptomCount = new HashMap<>();
-		List<String> symptomList = symptomReader.GetSymptoms();
-		for (String symptom : symptomList) {
-		    symptomCount.put(symptom, symptomCount.getOrDefault(symptom, 0) + 1);
+
 		}
 
-		return symptomCount; 
 	}
 
+	// public Map<String, Integer> countSymptoms() {
+	// List<String> symptomList = symptomReader.getSymptoms();
+	// for (String symptom : symptomList) {
+	// symptomCount.put(symptom, symptomCount.getOrDefault(symptom, 0) + 1);
+	// }
+
+	// return symptomCount;
+	// }
 }
