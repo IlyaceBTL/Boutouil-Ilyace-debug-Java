@@ -6,22 +6,29 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Besoin d'un trie alphabetique pour countSymptoms
- *
+ * Class responsible for writing symptoms and their occurrences in a file.
  */
 
 public class WriteSymptomDataToFile implements ISymptomWriter {
 
+	/**
+	 * 
+	 * Writes the symptoms and their number of occurrences to a file named
+	 * "result.out".
+	 *
+	 * @param symptomMap a Map containing the symptoms (keys) and their number of
+	 *                  occurrences (values).
+	 */
 	@Override
-	public void writeSymptoms(Map<String, Integer> symptoMap) {
-		if (symptoMap == null || symptoMap.isEmpty()) {
+	public void writeSymptoms(Map<String, Integer> symptomMap) {
+		if (symptomMap == null || symptomMap.isEmpty()) {
 			System.out.println("Aucun Symptome");
 			return;
 		}
 
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("result.out"))) {
-			for (String symptomKey : symptoMap.keySet()) {
-				writer.write(symptomKey + " = " + symptoMap.get(symptomKey));
+			for (String symptomKey : symptomMap.keySet()) {
+				writer.write(symptomKey + " = " + symptomMap.get(symptomKey));
 				writer.newLine();
 			}
 			System.out.println("result.out est ecrit");
@@ -32,12 +39,4 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 
 	}
 
-	// public Map<String, Integer> countSymptoms() {
-	// List<String> symptomList = symptomReader.getSymptoms();
-	// for (String symptom : symptomList) {
-	// symptomCount.put(symptom, symptomCount.getOrDefault(symptom, 0) + 1);
-	// }
-
-	// return symptomCount;
-	// }
 }

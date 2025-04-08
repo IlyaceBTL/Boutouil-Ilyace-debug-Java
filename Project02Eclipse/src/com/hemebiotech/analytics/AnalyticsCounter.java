@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class responsible for counting,sorting.
+ */
 public class AnalyticsCounter {
 
 	private ISymptomReader reader;
@@ -15,10 +18,24 @@ public class AnalyticsCounter {
 		this.writer = writer;
 	}
 
+	/**
+	 * Retrieves the list of symptoms.
+	 *
+	 * @return a list of symptoms.
+	 */
 	public List<String> getSymptoms() {
 		return reader.getSymptoms();
 	}
 
+	/**
+	 * 
+	 * Takes a list of symptoms, counts how many times each one appears, and returns
+	 * a map.
+	 * 
+	 * @param A list of symptoms.
+	 * @return A map containing symptoms (keys) and their number of occurrences
+	 *         (values).
+	 */
 	public Map<String, Integer> countSymptoms(List<String> symptoms) {
 		Map<String, Integer> symptomCount = new HashMap<>();
 
@@ -29,6 +46,12 @@ public class AnalyticsCounter {
 		return symptomCount;
 	}
 
+	/**
+	 * Takes a map of symptoms and returns it sorted alphabetically.
+	 * 
+	 * @param A map of symptoms.
+	 * @return A TreeMap sorted alphabetically.
+	 */
 	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
 		Map<String, Integer> symptomSort = new TreeMap<>(symptoms);
 
@@ -36,17 +59,12 @@ public class AnalyticsCounter {
 
 	}
 
+	/**
+	 * Writes the symptoms and their occurrence counts.
+	 *
+	 * @param symptoms a map of symptoms and their counts
+	 */
 	public void writeSymptoms(Map<String, Integer> symptoms) {
 		writer.writeSymptoms(symptoms);
 	}
 }
-
-//public static void main(String args[]) throws Exception {
-//
-//	ISymptomReader reader = new ReadSymptomDataFromFile("Project02Eclipse\\symptoms.txt");
-//
-//	WriteSymptomDataToFile writer = new WriteSymptomDataToFile(reader);
-//
-//	Map<String, Integer> countedSymptoms = writer.countSymptoms();
-//
-//	writer.writeSymptoms(countedSymptoms);
